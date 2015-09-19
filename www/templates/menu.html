@@ -1,10 +1,10 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-        <ion-nav-bar class="bar-assertive-900" ng-class="{expanded: isExpanded, 'has-header-fab-left': hasHeaderFabLeft, 'has-header-fab-right': hasHeaderFabRight}" align-title="left">
+        <ion-nav-bar class="bar-assertive-900" align-title="left">
             <ion-nav-back-button class="no-text">
             </ion-nav-back-button>
             <ion-nav-buttons side="left">
-                <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -12,21 +12,20 @@
     </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    <ion-header-bar class="dark-bg expanded hero">
-      <div class="content" style="position:inherit">
+    <ion-header-bar class="dark-bg hero" style="background: #333;position: initial">
+      <div class="content no-anim" style="position:inherit" ng-if="authData">
           <div class="avatar" style="background-image: url('img/crown.jpg');"></div>
-          <h3><a class="light">Daenerys Targaryen</a></h3>
+          <h3><a class="light">{{authData.facebook.displayName}}</a></h3>
+
+          <button class="button button-small" ng-click="logout()" style="width: 80%;min-height: 15px; margin-top: 20px; max-width: 80%;">Logout</button>
+      </div>
+      <div class="content no-anim" style="position:inherit">
+          <div class="avatar"></div>
+          <button class="button button-small" ng-click="showLogin()" style="width: 80%;min-height: 15px;margin-top: 20px; max-width: 80%;">Login</button>
       </div>
     </ion-header-bar>
-    <ion-content class="stable-bg has-expanded-header">
-      <ion-list menu-close href="#/app/login">
-        <button class="button button-full">Login</button>
-      </ion-list>
-      <ion-list>
-        <ion-item menu-close href="#/app/login">
-          Login
-        </ion-item>
-        <ion-item menu-close href="#/app/profile">
+    <ion-content class="stable-bg has-expanded-header" style="top: 200px !important">
+        <ion-item menu-close ui-sref="app.profile" ng-show="authData">
           Profile
         </ion-item>
 	       <ion-item menu-close href="#/app/host">
@@ -41,10 +40,10 @@
         <ion-item menu-close href="#/app/savedevents">
           Saved Events
         </ion-item>
-	<ion-item menu-close href="#/app/applieddevents">
+	     <ion-item menu-close href="#/app/applieddevents">
           Applied Events
         </ion-item>
-	<ion-item menu-close href="#/app/supportus">
+	       <ion-item menu-close href="#/app/supportus">
           Support Us
         </ion-item>
       </ion-list>

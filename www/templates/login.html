@@ -7,7 +7,12 @@
             </div>
         </div>
         <div class="list padding">
-            <button class="button button-full button-border icon-left ion-social-facebook button-positive-900">Facebook</button>
+            <ion-item>
+                <button class="button button-full button-border icon-left ion-social-facebook button-positive-900" ng-click="login('facebook')">Facebook</button>
+            </ion-item>
+            <ion-item>
+                <button class="button button-full button-border" ng-click="closeLogin()">Cancel</button>
+            </ion-item>
         </div>
     </ion-content>
 </ion-view>
