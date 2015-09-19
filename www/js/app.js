@@ -1,6 +1,6 @@
-angular.module("starter", ["ionic", "firebase"])
+var app = angular.module("starter", ["starter.routes","starter.controllers","ionic", "firebase"]);
 
-.run(function($ionicPlatform) {
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the leopard
     // for form inputs)
@@ -14,33 +14,4 @@ angular.module("starter", ["ionic", "firebase"])
       StatusBar.styleDefault();
     }
   });
-})
-
-.config(function($stateProvider, $urlRouterProvider)
-{
-
-  $stateProvider
-    .state('app', {
-      url: '/app',
-      abstract: true,
-      templateUrl: 'templates/menu.html',
-    })
-    .state('app.home', {
-      url: '/home',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/home.html'
-        }
-      }
-    })
-    .state('app.search', {
-      url: '/search',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/search.html'
-        }
-      }
-    })
-
-    $urlRouterProvider.otherwise('/app/home');
-})
+});
