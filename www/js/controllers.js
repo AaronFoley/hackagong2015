@@ -84,8 +84,13 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
         $scope.modal.hide();
     }
 
-    Auth.$onAuth(function(authData) {
-        $scope.authData = authData;
+   Auth.$onAuth(function(authData) {
+      if (authData === null) {
+        console.log("Not logged in yet");
+      } else {
+        console.log("Logged in as", authData.uid);
+      }
+      $scope.authData = authData; // This will display the user's name in our view
     });
 
     $scope.logout = function()
