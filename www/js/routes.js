@@ -23,14 +23,28 @@ routes.config(function($stateProvider, $urlRouterProvider)
       }
     })
     .state('app.profile', {
-      url: '/profile',
+      url: '/profile/:profileId',
       views: {
         'menuContent': {
           templateUrl: 'templates/profile.html',
-          controller: function(ionicMaterialInk)
-          {
-             ionicMaterialInk.displayEffect();
+          controller: 'ProfileCtrl'
+        },
+        'fabContent': {
+          template: '<button id="fab-activity" ui-sref="app.edit-profile" class="button button-fab button-fab-top-right expanded button-energized-500 flap"><i class="icon ion-edit"></i></button>',
+          controller: function ($timeout) {
+              $timeout(function () {
+                  document.getElementById('fab-activity').classList.toggle('on');
+              }, 200);
           }
+        }
+      }
+    })
+    .state('app.edit-profile', {
+      url: '/editprofile',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/profile-edit.html',
+          controller: 'ProfileEditCtrl'
         }
       }
     })

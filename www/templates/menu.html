@@ -8,6 +8,7 @@
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
+        <ion-nav-view name="fabContent"></ion-nav-view>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
 
@@ -25,7 +26,7 @@
       </div>
     </ion-header-bar>
     <ion-content class="stable-bg has-expanded-header" style="top: 200px !important">
-        <ion-item menu-close ui-sref="app.profile" ng-show="authData">
+        <ion-item menu-close href="#/app/profile/{{authData.uid}}" ng-show="authData">
           Profile
         </ion-item>
 	       <ion-item menu-close href="#/app/host">

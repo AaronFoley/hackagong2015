@@ -1,7 +1,7 @@
-var controllers = angular.module('starter.controllers', ['starter.firebase', 'ionic', 'firebase', 'ionic-material'])
+var controllers = angular.module('starter.controllers', ['starter.services', 'ionic', 'firebase', 'ionic-material'])
 
 
-controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMaterialInk)
+controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMaterialInk, Profiles)
 {
     $scope.loginData = {};
 
@@ -45,6 +45,13 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
         $scope.hasHeader();
     };
 
+    $scope.clearFabs = function() {
+        var fabs = document.getElementsByClassName('button-fab');
+        if (fabs.length) {
+            fabs[0].remove();
+        }
+    };
+
 
     ////////////////////////////////////////
     // Login
@@ -85,12 +92,15 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
     }
 
    Auth.$onAuth(function(authData) {
-      if (authData === null) {
-        console.log("Not logged in yet");
-      } else {
-        console.log("Logged in as", authData.uid);
-      }
-      $scope.authData = authData; // This will display the user's name in our view
+        if (authData != null) {
+
+            if (!Profiles.get(authData.uid))
+            {
+                Profiles.create(authData);
+            }
+        }
+
+        $scope.authData = authData; // This will display the user's name in our view
     });
 
     $scope.logout = function()
@@ -98,4 +108,35 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
         Auth.$unauth();
     }
 
+    ionicMaterialInk.displayEffect();
+
+})
+
+
+controllers.controller('ProfileCtrl', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, $stateParams, Profiles)
+{
+    $scope.profile = Profiles.get($stateParams.profileId);
+
+    // Set Motion
+    $timeout(function() {
+        ionicMaterialMotion.slideUp({
+            selector: '.slide-up'
+        });
+    }, 300);
+
+    $timeout(function() {
+        ionicMaterialMotion.fadeSlideInRight({
+            startVelocity: 3000
+        });
+    }, 700);
+
+    ionicMaterialInk.displayEffect();
+});
+
+controllers.controller('ProfileEditCtrl', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, Profiles)
+{
+    $scope.$parent.clearFabs();
+
+
+    ionicMaterialInk.displayEffect();
 })
