@@ -9,14 +9,6 @@ routes.config(function($stateProvider, $urlRouterProvider)
       abstract: true,
       templateUrl: 'templates/menu.html',
     })
-.state('app.home', {
-      url: '/home',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/home.html'
-        }
-      }
-    })
   .state('app.login', {
       url: '/login',
       views: {
@@ -25,7 +17,14 @@ routes.config(function($stateProvider, $urlRouterProvider)
         }
       }
     })
-    
+    .state('app.home', {
+      url: '/home',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/home.html'
+        }
+      }
+    })
     .state('app.profile', {
       url: '/profile',
       views: {
