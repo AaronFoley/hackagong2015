@@ -42,15 +42,6 @@ routes.config(function($stateProvider, $urlRouterProvider)
         }
       }
    })
- .state('app.calendar', {
-      url: '/calendar',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/calendar.html'
-        }
-      }
-
-   })
  .state('app.findevents', {
       url: '/findevents',
       views: {

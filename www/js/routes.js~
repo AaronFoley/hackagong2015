@@ -1,4 +1,4 @@
-var routes = angular.module("starter.routes", ['ionic']);
+var routes = angular.module("starter.routes", ['ionic','ionic-material']);
 
 routes.config(function($stateProvider, $urlRouterProvider)
 {
@@ -8,20 +8,17 @@ routes.config(function($stateProvider, $urlRouterProvider)
       url: '/app',
       abstract: true,
       templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl'
     })
-  .state('app.login', {
-      url: '/login',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/login.html'
-        }
-      }
-    })
-    .state('app.home', {
+  .state('app.home', {
       url: '/home',
       views: {
         'menuContent': {
-          templateUrl: 'templates/home.html'
+          templateUrl: 'templates/home.html',
+          controller: function(ionicMaterialInk)
+          {
+             ionicMaterialInk.displayEffect();
+          }
         }
       }
     })
@@ -29,7 +26,11 @@ routes.config(function($stateProvider, $urlRouterProvider)
       url: '/profile',
       views: {
         'menuContent': {
-          templateUrl: 'templates/profile.html'
+          templateUrl: 'templates/profile.html',
+          controller: function(ionicMaterialInk)
+          {
+             ionicMaterialInk.displayEffect();
+          }
         }
       }
     })

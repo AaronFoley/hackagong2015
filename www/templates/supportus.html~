@@ -1,5 +1,17 @@
-<ion-view view-title="Support Us">
-  <ion-content>
-    <h1>Support Us</h1>
-  </ion-content>
+<ion-view view-title="Support Us" align-title="left">
+    <ion-content style="background: url(img/login.jpg) center; background-size: cover;">
+        <div class="hero no-header flat">
+            <div class="content">
+                <div class="app-icon"></div>
+                <h1>All Support is appreciated</h1>
+            </div>
+        </div>
+        <div class="list padding">
+            <ion-item>
+
+                <button class="button button-full button-border icon-left ion-social-kickstarter button-balanced-900" <a href="" ng-click="www.google.com">KickStarter</a></button>
+            </ion-item>
+         
+    </ion-content>
 </ion-view>
+
