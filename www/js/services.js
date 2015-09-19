@@ -1,7 +1,7 @@
 var services = angular.module('starter.services', ['firebase', 'ionic', 'ionic-material', 'starter.config'])
 
 services.factory("Auth", function($firebaseAuth, FIREBASE_URL) {
-    var usersRef = new Firebase(FIREBASE_URL + "/users");
+    var usersRef = new Firebase(FIREBASE_URL);
     return $firebaseAuth(usersRef);
 })
 
@@ -26,6 +26,12 @@ services.factory('Profiles', function($firebaseArray, FIREBASE_URL)
                 display_name: authData.facebook.displayName,
                 avatar: authData.facebook.profileImageURL
             })
+        },
+        save: function(authData,user)
+        {
+            delete user['$id'];
+            delete user['$priority'];
+            ref.child(authData.uid).set(user);
         }
     };
 });

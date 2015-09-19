@@ -7,25 +7,12 @@
                 <h4>  </h4>
             </div>
         </div>
-        <div class="list animate-fade-slide-in-right">
-            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
-                <img src="img/crown.jpg">
-                <h2>Jon Snow</h2>
-                <p>Da illest illegitimate</p>
-                <i class="icon ion-chatbubble muted"></i>
-            </a>
-            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
-                <img src="img/crown.jpg">
-                <h2>Sansa Stark</h2>
-                <p>&amp; Joffrey <strike>sitting</strike> sat in a tree</p>
-                <i class="icon ion-chatbubble muted"></i>
-            </a>
-            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
-                <img src="img/crown.jpg">
-                <h2>Tyrion Lannister</h2>
-                <p>B.A.M.F. imp</p>
-                <i class="icon ion-chatbubble muted"></i>
-            </a>
-        </div>
+
+        <ion-item class="list animate-fade-slide-in-right" ng-repeat="(key,value) in profile.fields">
+            <div class="item item-text-wrap">
+                <h2>{{key}}</h2>
+                <p>{{value}}</p>
+            </div>
+        </ion-item>
     </ion-content>
 </ion-view>

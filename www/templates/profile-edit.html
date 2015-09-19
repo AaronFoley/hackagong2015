@@ -1,5 +1,19 @@
 <ion-view view-title="Edit Profile">
-  <ion-content>
-    <h1>Editing that profile!</h1>
-  </ion-content>
+    <ion-content>
+        <div class="list">
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Display Name</span>
+                <input type="text" placeholder="Display Name" ng-model="profile.display_name">
+            </label>
+            <label class="item item-input item-stacked-label">
+                <span class="input-label">Description</span>
+                <textarea placeholder="Comments" ng-model="profile.fields.Description"></textarea>
+            </label>
+            <div class="item">
+                <button ng-click="save()" class=" button button-block button-positive">
+                Submit
+                </button>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

@@ -1,9 +1,10 @@
-var controllers = angular.module('starter.controllers', ['starter.services', 'ionic', 'firebase', 'ionic-material'])
+var controllers = angular.module('starter.controllers', ['starter.services', 'ionic', 'firebase', 'ionic-material', 'starter.config'])
 
 
-controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMaterialInk, Profiles)
+controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMaterialInk, Profiles, FIREBASE_URL)
 {
-    $scope.loginData = {};
+    $scope.authData = {};
+    $scope.profile  = {};
 
     ////////////////////////////////////////
     // Layout Methods
@@ -52,6 +53,23 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
         }
     };
 
+    $scope.setHeaderFab = function(location) {
+        var hasHeaderFabLeft = false;
+        var hasHeaderFabRight = false;
+
+        switch (location) {
+            case 'left':
+                hasHeaderFabLeft = true;
+                break;
+            case 'right':
+                hasHeaderFabRight = true;
+                break;
+        }
+
+        $scope.hasHeaderFabLeft = hasHeaderFabLeft;
+        $scope.hasHeaderFabRight = hasHeaderFabRight;
+    };
+
 
     ////////////////////////////////////////
     // Login
@@ -91,25 +109,33 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
         $scope.modal.hide();
     }
 
-   Auth.$onAuth(function(authData) {
-        if (authData != null) {
+    Auth.$onAuth(function(authData) {
+        $scope.authData = authData;
 
-            if (!Profiles.get(authData.uid))
-            {
-                Profiles.create(authData);
+        var usersRef = new Firebase(FIREBASE_URL + '/users/');
+
+        usersRef.once('value', function(snapshot) {
+            if (!snapshot.hasChild(authData.uid)) {
+                usersRef.child(authData.uid).set(
+                {
+                    display_name: authData.facebook.displayName,
+                    avatar: authData.facebook.profileImageURL
+                })
             }
-        }
-
-        $scope.authData = authData; // This will display the user's name in our view
+        });
     });
 
     $scope.logout = function()
     {
         Auth.$unauth();
-    }
+    };
+
+    $scope.getProfile = function()
+    {
+        return Profiles.get($scope.authData.uid);
+    };
 
     ionicMaterialInk.displayEffect();
-
 })
 
 
@@ -133,10 +159,71 @@ controllers.controller('ProfileCtrl', function($scope, ionicMaterialInk, $timeou
     ionicMaterialInk.displayEffect();
 });
 
-controllers.controller('ProfileEditCtrl', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, Profiles)
+controllers.controller('ProfileEditCtrl', function($state, $scope, ionicMaterialInk, Auth, Profiles)
 {
     $scope.$parent.clearFabs();
 
+    $scope.profile = Profiles.get($scope.$parent.authData.uid);
+
+    $scope.save = function()
+    {
+        Profiles.save($scope.$parent.authData,$scope.profile);
+        $state.go('app.profile', {profileId: $scope.$parent.authData.uid});
+    }
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('EventsListCtrl', function($scope,ionicMaterialInk)
+{
+    $scope.$parent.clearFabs();
+
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('EventsViewCtrl', function($scope,ionicMaterialInk)
+{
+    $scope.$parent.clearFabs();
+
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('EventsEditCtrl', function($scope,ionicMaterialInk)
+{
+    $scope.$parent.clearFabs();
+
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('EventsCreateCtrl', function($scope,ionicMaterialInk)
+{
+    $scope.$parent.clearFabs();
+
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('EventsAppliedCtrl', function($scope,ionicMaterialInk)
+{
+    $scope.$parent.clearFabs();
+
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('EventsHostedCtrl', function($scope,ionicMaterialInk)
+{
+
+
+    ionicMaterialInk.displayEffect();
+})
+
+controllers.controller('SupportUsCtrl', function($scope,ionicMaterialInk)
+{
+    $scope.$parent.clearFabs();
 
     ionicMaterialInk.displayEffect();
 })
