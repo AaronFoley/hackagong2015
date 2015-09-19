@@ -1,4 +1,4 @@
-var app = angular.module("starter", ["starter.routes","starter.controllers","ionic", "firebase"]);
+var app = angular.module("starter", ["starter.routes","starter.controllers","ionic", 'ionic-material', "firebase"]);
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
