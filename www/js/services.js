@@ -29,17 +29,28 @@ services.factory('Profiles', function($firebaseArray, FIREBASE_URL, $firebaseObj
     };
 });
 
-services.factory('Events', function($firebaseArray, FIREBASE_URL)
+services.factory('Events', function($firebaseArray, FIREBASE_URL, $firebaseObject)
 {
     var ref = new Firebase(FIREBASE_URL + "/events");
-    var events = $firebaseArray(ref);
+    var attendeesref = new Firebase(FIREBASE_URL + "/attendees");
 
     return {
         all: function() {
-            return events;
+            return $firebaseArray(ref);
         },
         get: function(eventId) {
-            return events.$getRecord(eventId);
+            return $firebaseObject(ref.child(eventId));
+        },
+        join: function(eventid, authData)
+        {
+            attendeesref.child(eventid).child(authData).set(false);
+        },
+        isJoined: function(eventid, authid)
+        {
+            attendeesref.child(eventid).once("value", function(snapshot) {
+                console.log(snapshot.child(authid).exists())
+                return snapshot.child(authid).exists();
+            })
         }
     };
 })

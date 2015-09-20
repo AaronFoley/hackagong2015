@@ -95,11 +95,22 @@ routes.config(function($stateProvider, $urlRouterProvider)
         views: {
             'menuContent': {
                 templateUrl: 'templates/events.html',
-                controller: 'EventsListCtrl'
+                controller: 'EventsListCtrl',
+                resolve:
+                {
+                    events: function(Events)
+                    {
+                        return Events.all().$loaded();
+                    }
+                }
+            },
+            'fabContent':
+            {
+                template: ''
             }
         }
     })
-    .state('app.events.view',
+    .state('app.events-view',
     {
         url: '/events/view/:eventid',
         views:
@@ -107,11 +118,30 @@ routes.config(function($stateProvider, $urlRouterProvider)
             'menuContent':
             {
                 templateUrl: 'templates/events-view.html',
-                controller: 'EventsViewCtrl'
+                controller: 'EventsViewCtrl',
+                resolve:
+                {
+                    event: function(Events,$stateParams)
+                    {
+                        return Events.get($stateParams.eventid).$loaded();
+                    },
+                    authData: function(Auth)
+                    {
+                        return Auth.$requireAuth().then(function(auth){
+                            return auth
+                        }, function(error){
+                            return;
+                        });
+                    }
+                }
+            },
+            'fabContent':
+            {
+                template: ''
             }
         }
     })
-    .state('app.events.create',
+    .state('app.events-create',
     {
         url: '/events/create',
         views:
@@ -119,12 +149,27 @@ routes.config(function($stateProvider, $urlRouterProvider)
             'menuContent':
             {
                 templateUrl: 'templates/events-create.html',
-                controller: 'EventsCreateCtrl'
-
+                controller: 'EventsCreateCtrl',
+                resolve:
+                {
+                    authData: function(Auth, $state)
+                    {
+                        return Auth.$requireAuth().then(function(auth){
+                            return auth
+                        }, function(error){
+                            $state.go('/events')
+                            return;
+                        });
+                    }
+                }
+            },
+            'fabContent':
+            {
+                template: ''
             }
         }
     })
-    .state('app.events.edit',
+    .state('app.events-edit',
     {
         url: '/events/create/:createid',
         views:
@@ -133,6 +178,10 @@ routes.config(function($stateProvider, $urlRouterProvider)
             {
                 templateUrl: 'templates/events-create.html',
                 controller: 'EventsEditCtrl'
+            },
+            'fabContent':
+            {
+                template: ''
             }
         }
     })
@@ -144,6 +193,10 @@ routes.config(function($stateProvider, $urlRouterProvider)
             'menuContent': {
                 templateUrl: 'templates/events.html',
                 controller: 'EventsAppliedCtrl'
+            },
+            'fabContent':
+            {
+                template: ''
             }
       }
     })
@@ -156,6 +209,16 @@ routes.config(function($stateProvider, $urlRouterProvider)
             {
                 templateUrl: 'templates/events.html',
                 controller: 'EventsHostedCtrl'
+            },
+            'fabContent':
+            {
+                template: '<button id="fab-activity" ui-sref="app.events-create" class="button button-fab button-fab-bottom-right expanded button-energized-500 flap"><i class="icon ion-plus"></i></button>',
+                controller: function ($scope, $timeout)
+                {
+                    $timeout(function () {
+                        document.getElementById('fab-activity').classList.toggle('on');
+                    }, 200);
+                }
             }
         }
     })
@@ -168,6 +231,10 @@ routes.config(function($stateProvider, $urlRouterProvider)
             {
                 templateUrl: 'templates/supportus.html',
                 controller: 'SupportUsCtrl'
+            },
+            'fabContent':
+            {
+                template: ''
             }
         }
     })

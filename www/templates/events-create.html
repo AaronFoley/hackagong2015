@@ -1,0 +1,45 @@
+<ion-view view-title="Host Event">
+    <ion-content>
+
+        <label class="item item-input">
+            <span class="input-label">Name</span>
+            <input type="text" ng-model="party.name">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">Start Date</span>
+            <input type="date" ng-model="party.startdate">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">Start Time</span>
+            <input type="time" ng-model="party.starttime">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">End Date</span>
+            <input type="date" ng-model="party.enddate">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">End Time</span>
+            <input type="time" ng-model="party.endtime">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">Party Location</span>
+            <input type="text" ng-model="party.address">
+        </label>
+        <label class="item item-input">
+            <span class="input-label">Random Information</span>
+            <input type="text" ng-model="party.description">
+        </label>
+
+        <div class="item">
+            <button ng-click="save()" class=" button button-block button-positive">
+            Create
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>

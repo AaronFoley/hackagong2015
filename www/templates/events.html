@@ -1,42 +1,14 @@
-<ion-view view-title="Host Profile">
-
-<ion-content>
-
-<label class="item item-input">
-  <span class="input-label">Party Name</span>
-  <input type="text">
-</label>
-
-<label class="item item-input">
-  <span class="input-label">Party Start</span>
-  <input type="time">
-</label>
-
-<label class="item item-input">
-  <span class="input-label">Party End</span>
-  <input type="time">
-</label>
-
-<label class="item item-input">
-  <span class="input-label">Party Location</span>
-  <input type="text">
-</label>
-
-<label class="item item-input">
-  <span class="input-label">Music Taste</span>
-  <input type="text">
-</label>
-
-<label class="item item-input">
-  <span class="input-label">Spoken Languages</span>
-  <input type="text">
-</label>
-
-<label class="item item-input">
-  <span class="input-label">Random Information</span>
-  <input type="text">
-</label>
-
-</ion-content>
-
+<ion-view view-title="Events">
+    <ion-content>
+        <div class="item card-item">
+            <div ng-click="openEvent('{{event.$id}}')" class="card stable-bg ink ink-dark" ng-repeat="event in events">
+                <div class="item item-avatar item-text-wrap">
+                    <span class="avatar" style="background-image: url('img/crown.jpg');"></span>
+                    <h2>{{event.name}}</h2>
+                    <p>Distance: 30 KM</p>
+                    <p>Starting in: {{momment().diff(event.start).format("HH:mm:ss")}}</p>
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

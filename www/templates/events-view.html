@@ -1,0 +1,23 @@
+<ion-view view-title="Event">
+    <ion-content>
+        <div class="hero slide-up" style="background-image: url('img/profile-bg.jpg');">
+            <div class="content">
+                <h3><a class="light">{{event.name}}</a></h3>
+                <h4>  </h4>
+            </div>
+        </div>
+
+        <div class="item" ng-show="authData && !isJoined()">
+            <button ng-click="join()" class=" button button-block button-positive">
+            Join
+            </button>
+        </div>
+
+        <ion-item class="list animate-fade-slide-in-right">
+            <div class="item item-text-wrap">
+                <h2>Description</h2>
+                <p>{{event.description}}</p>
+            </div>
+        </ion-item>
+    </ion-content>
+</ion-view>
