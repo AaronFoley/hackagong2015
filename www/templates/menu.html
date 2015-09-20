@@ -15,8 +15,8 @@
     <ion-side-menu side="left">
         <ion-header-bar class="dark-bg hero" style="background: #333;position: initial">
         <div class="content" style="position:inherit"  ng-class="{'hidden': !authData}">
-            <div class="avatar" style="background-image: url('{{getProfile().avatar}}');"></div>
-            <h3><a class="light" ng-if="authData.facebook">{{getProfile().display_name}}</a></h3>
+            <div class="avatar" style="background-image: url('{{profile.avatar}}');"></div>
+            <h3><a class="light" ng-if="authData.facebook">{{profile.display_name}}</a></h3>
 
             <button class="button button-small" ng-click="logout()" style="width: 80%;min-height: 15px; margin-top: 20px; max-width: 80%;">Logout</button>
         </div>

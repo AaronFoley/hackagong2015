@@ -1,10 +1,10 @@
 var controllers = angular.module('starter.controllers', ['starter.services', 'ionic', 'firebase', 'ionic-material', 'starter.config'])
 
 
-controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMaterialInk, Profiles, FIREBASE_URL)
+controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMaterialInk, Profiles, FIREBASE_URL, profile, $state)
 {
     $scope.authData = {};
-    $scope.profile  = {};
+    $scope.profile = profile;
 
     ////////////////////////////////////////
     // Layout Methods
@@ -106,42 +106,55 @@ controllers.controller("AppCtrl", function($scope, Auth, $ionicModal, ionicMater
             }
         });
 
-        $scope.modal.hide();
+        Auth.$requireAuth().then(function(auth){
+            $scope.modal.hide();
+        }, function(error)
+        {
+            return;
+        })
     }
 
     Auth.$onAuth(function(authData) {
         $scope.authData = authData;
 
-        var usersRef = new Firebase(FIREBASE_URL + '/users/');
+        if (authData)
+        {
+            var usersRef = new Firebase(FIREBASE_URL + '/users/');
 
-        usersRef.once('value', function(snapshot) {
-            if (!snapshot.hasChild(authData.uid)) {
-                usersRef.child(authData.uid).set(
-                {
-                    display_name: authData.facebook.displayName,
-                    avatar: authData.facebook.profileImageURL
-                })
-            }
-        });
+            usersRef.once('value', function(snapshot) {
+                if (!snapshot.hasChild(authData.uid)) {
+
+                    usersRef.child(authData.uid).set(
+                    {
+                        display_name: authData.facebook.displayName,
+                        avatar: authData.facebook.profileImageURL
+                    })
+                }
+            });
+        }
     });
 
     $scope.logout = function()
     {
         Auth.$unauth();
+        $state.go('app.events');
     };
 
     $scope.getProfile = function()
     {
-        return Profiles.get($scope.authData.uid);
+        // if (!$scope.authData) return null;
+        // return Profiles.get($scope.authData.uid);
+
+        return null;
     };
 
     ionicMaterialInk.displayEffect();
 })
 
 
-controllers.controller('ProfileCtrl', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, $stateParams, Profiles)
+controllers.controller('ProfileCtrl', function($scope, ionicMaterialInk, $timeout, ionicMaterialMotion, profile)
 {
-    $scope.profile = Profiles.get($stateParams.profileId);
+    $scope.profile = profile
 
     // Set Motion
     $timeout(function() {
@@ -159,16 +172,17 @@ controllers.controller('ProfileCtrl', function($scope, ionicMaterialInk, $timeou
     ionicMaterialInk.displayEffect();
 });
 
-controllers.controller('ProfileEditCtrl', function($state, $scope, ionicMaterialInk, Auth, Profiles)
+controllers.controller('ProfileEditCtrl', function($state, $scope, ionicMaterialInk, profile, authData, Profiles)
 {
     $scope.$parent.clearFabs();
 
-    $scope.profile = Profiles.get($scope.$parent.authData.uid);
+    $scope.profile = profile;
 
     $scope.save = function()
     {
-        Profiles.save($scope.$parent.authData,$scope.profile);
-        $state.go('app.profile', {profileId: $scope.$parent.authData.uid});
+
+        $scope.profile.$save();
+        $state.go('app.profile', {profileId: authData.uid});
     }
 
     ionicMaterialInk.displayEffect();

@@ -5,19 +5,18 @@ services.factory("Auth", function($firebaseAuth, FIREBASE_URL) {
     return $firebaseAuth(usersRef);
 })
 
-services.factory('Profiles', function($firebaseArray, FIREBASE_URL)
+services.factory('Profiles', function($firebaseArray, FIREBASE_URL, $firebaseObject)
 {
     var ref = new Firebase(FIREBASE_URL + "/users");
-    var profiles = $firebaseArray(ref);
 
     return {
         all: function()
         {
-            return profiles;
+            return $firebaseArray(ref);
         },
         get: function(profileId)
         {
-            return profiles.$getRecord(profileId);
+            return $firebaseObject(ref.child(profileId));
         },
         create: function(authData)
         {
@@ -26,12 +25,6 @@ services.factory('Profiles', function($firebaseArray, FIREBASE_URL)
                 display_name: authData.facebook.displayName,
                 avatar: authData.facebook.profileImageURL
             })
-        },
-        save: function(authData,user)
-        {
-            delete user['$id'];
-            delete user['$priority'];
-            ref.child(authData.uid).set(user);
         }
     };
 });

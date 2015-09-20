@@ -8,7 +8,19 @@ routes.config(function($stateProvider, $urlRouterProvider)
         url: '/app',
         abstract: true,
         templateUrl: 'templates/menu.html',
-        controller: 'AppCtrl'
+        controller: 'AppCtrl',
+        resolve:
+        {
+            profile: function(Profiles, Auth)
+            {
+                return Auth.$requireAuth().then(function(auth){
+                    return Profiles.get(auth.uid).$loaded();
+                }, function(error){
+                    console.log(error)
+                    return;
+                });
+            }
+        }
     })
     .state('app.profile',
     {
@@ -18,7 +30,14 @@ routes.config(function($stateProvider, $urlRouterProvider)
             'menuContent':
             {
                 templateUrl: 'templates/profile.html',
-                controller: 'ProfileCtrl'
+                controller: 'ProfileCtrl',
+                resolve:
+                {
+                    profile: function(Profiles, $stateParams)
+                    {
+                        return Profiles.get($stateParams.profileId).$loaded();
+                    }
+                }
             },
             'fabContent':
             {
@@ -45,7 +64,28 @@ routes.config(function($stateProvider, $urlRouterProvider)
             'menuContent':
             {
                 templateUrl: 'templates/profile-edit.html',
-                controller: 'ProfileEditCtrl'
+                controller: 'ProfileEditCtrl',
+                resolve:
+                {
+                    profile: function(Profiles, Auth, $state)
+                    {
+                        return Auth.$requireAuth().then(function(auth){
+                            return Profiles.get(auth.uid).$loaded();
+                        }, function(error){
+                            $state.go('/events')
+                            return;
+                        });
+                    },
+                    authData: function(Auth, $state)
+                    {
+                        return Auth.$requireAuth().then(function(auth){
+                            return auth
+                        }, function(error){
+                            $state.go('/events')
+                            return;
+                        });
+                    }
+                }
             }
         }
     })
